@@ -1,0 +1,27 @@
+[
+   {
+      "date": "19/Dec/2020:13:57:26 +0100",
+      "ip": "13.66.139.0",
+      "user": null,
+      "method": "GET",
+      "request": "/index.php?option=com_phocagallery&view=category&id=1:almhuette-raith&Itemid=53",
+      "protocol": "HTTP/1.1",
+      "code": 200,
+      "size": 32653,
+      "referer": null,
+      "agent": "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)"
+   },
+   {
+      "date": "19/Dec/2020:14:08:06 +0100",
+      "ip": "157.48.153.185",
+      "user": "admin",
+      "method": "GET",
+      "request": "/apache-log/access.log",
+      "protocol": "HTTP/1.1",
+      "code": 200,
+      "size": 233,
+      "referer": null,
+      "agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+   }
+]
+   
