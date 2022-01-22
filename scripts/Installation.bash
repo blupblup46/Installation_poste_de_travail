@@ -18,6 +18,7 @@ echo creation du dossier de travail
 mkdir Fichiers_de_travail
 
 echo Lancement des conteneurs
-docker container run -d --name Transmetteur -w /data -v Log2Graph:/data bigpapoo/php-cli74  ./TransfertFichier.php
+docker container run -d --name Transmetteur -w /data -v Log2Graph:/data bigpapoo/php-cli74 ./TransfertFichier.php
 
-docker container run -d --name Extracteur -w /data -v Log2Graph:/data bigpapoo/php-cli74 ./ExtractionDonnee.php
+docker container run -d --name Extracteur -w /data -v Log2Graph:/data bigpapoo/php-cli74 "apt-get update | apt-get install jq -y | ./ExtractionDonnee.php"
+# Installation du package jq (<1MB) pour extraire sample.json

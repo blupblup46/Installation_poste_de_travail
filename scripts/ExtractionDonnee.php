@@ -1,14 +1,14 @@
 #!/usr/local/bin/php
 
-enlever les "" dans la date_format
-
 <?php
-
+    // enlever les "" dans la date_format
     $config="config";
     $dossier_de_travail="Fichiers_de_travail";
     $dir_out="Separation";
     $nomFicCSV="donneesCSV";
+    $nomFicjson="donneesjson";
     $dirCSV='$dossier_de_travail/$dir_out/CSV';
+    $dirjson='$dossier_de_travail/$dir_out/json';
 
     while(true){
         if(is_dir($dossier_de_travail)){
@@ -36,6 +36,15 @@ enlever les "" dans la date_format
                         } 
                     }
                 }
+                
+            }
+            fopen($dirjson/${nomFicjson}, "w");
+            echo "readdir\n";
+            $numeroLigne=0;
+            $json=scandir($dirjson);
+            print_r($json);
+            echo "\n";
+            foreach($json as $nomFic){
                 
             }
         }  
