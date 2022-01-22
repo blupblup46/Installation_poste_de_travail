@@ -45,7 +45,8 @@ enlever les "" dans la date_format
                             echo "$ligne\n";
                             $ligne= explode(";", $ligne);
                             $date= explode(" ", $ligne[2]);
-
+                            $ligne[0]= trim($ligne[0]);
+                            $date[0]= trim($date[0]);
                             echo"\n";
                             echo "****************\n";
                             echo "****************\n";
@@ -55,10 +56,14 @@ enlever les "" dans la date_format
                             echo "****************\n";
                             echo "****************\n";
                             echo"\n";
-
-                            $ligne[0]= str_replace('"', '', $ligne[0]);
-                            $date[0]= str_replace('"', '', $date[0]);
-                            file_put_contents("$dossier_de_travail/$dir_out/$DataTemp", "$ligne[0] $date[0]\n", FILE_APPEND);
+                            if ("$ligne[0]"!=""){
+                                $ligne[0]= str_replace('"', '', $ligne[0]);
+                                
+                                $date[0]= str_replace('"', '', $date[0]);
+                               
+                                file_put_contents("$dossier_de_travail/$dir_out/$DataTemp", "$ligne[0] $date[0]\n", FILE_APPEND);
+                            }
+                            
                         } 
                     }
                 }
@@ -66,6 +71,9 @@ enlever les "" dans la date_format
             }
 
             $DataTempLog= file("$dossier_de_travail/$dir_out/$DataTemp");
+
+            echo "fichier avant tri:\n";
+            print_r($DataTempLog);
 
             echo "///////////////////////tri//////////////////////////\n";
             foreach($DataTempLog as $indice => $ligne){
@@ -87,6 +95,9 @@ enlever les "" dans la date_format
                 $DataTempLog[$indice]=$DataTempLog[$IndiceLignePlusPetite];
                 $DataTempLog[$IndiceLignePlusPetite]=$temp;
             }
+
+            echo "fichier apres tri:\n";
+            print_r($DataTempLog);
             file_put_contents("$dossier_de_travail/$dir_out/$DataTemp", $DataTempLog);
 
             echo "///////////////////////comptage///////////////////////\n";
