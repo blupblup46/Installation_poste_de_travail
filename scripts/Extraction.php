@@ -24,27 +24,26 @@ enlever les "" dans la date_format
             $APACHE = scandir($dirAPACHE);
             echo"Recuperation des donnees\n";
 
-            foreach($APACHE as $nomFic){
+            echo "APACHE= \n";
+            print_r($APACHE);
+
+            foreach ($APACHE as $nomFic){
 
                 $contenuFicAPACHE=file("$dirAPACHE/$nomFic");
 
                 foreach($contenuFicAPACHE as $ligne){
 
-                    $nomFic = explode(" ",$nomFic);
+                    $ligne = explode(" ",$ligne);
 
-                    $ligne = $nomfic[3];
+                    $date = explode(":",$ligne[3]);
 
-                    $ligne = explode(":",$ligne);
+                    $date = str_replace("/","-", $date[0]);
+                    $date = str_replace("[","", $date);;
+                    $date = str_replace("Dec", "12", $date);
 
-                    $slash = $ligne[0];
-                    $crochet = $ligne[0];
-                    $shortdate = $ligne[0];
-
-                    $slash = str_replace("/","-", $slash);
-                    $crochet = str_replace("[","", $crochet);
-                    $shortdate = str_replace("Dec", "12", $shortdate);
-
-                    file_put_contents("$dossier_de_travail/     $dir_out/$DataTemp", "$nomFic[0] $ligne[0]      \n", FILE_APPEND);
+                    file_put_contents("$dossier_de_travail/     $dir_out/$DataTemp", "$ligne[0] $date\n", FILE_APPEND);
                 }
             }
+        }
+    }
 ?>
