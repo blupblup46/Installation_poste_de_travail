@@ -66,7 +66,14 @@ enlever les "" dans la date_format
             }
             echo "Donnees CSV recuperees\n";
 
+            echo "Scan du dossier $dirJSON\n";
+            $JSON=scandir($dirJSON);
+            echo "Recuperation des donnees\n";
+            foreach ($assoc as $key => $value) {
+                echo "The value of key '$key' is '$value'\n";
+            }
             
+            $assoc = json_decode($JSON, true);
 
             $DataTempLog= file("$dossier_de_travail/$dir_out/$DataTemp");
 

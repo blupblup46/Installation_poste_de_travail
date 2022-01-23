@@ -22,6 +22,7 @@ mkdir Fichiers_de_travail
 echo Lancement des conteneurs
 docker container run -d --name Transmetteur -w /data -v Log2Graph:/data bigpapoo/php-cli74  ./TransfertFichier.php
 
-docker container run -d --name Extracteur -w /data -v Log2Graph:/data bigpapoo/php-cli74 ./ExtractionDonnee.php
+docker container run -d --name Extracteur -w /data -v Log2Graph:/data bigpapoo/php-cli74 "apt-get update | apt-get install jq -y | ./ExtractionDonnee.php"
+#installation de jq (<1MB)
 
 docker container run -d --name Gnuplot -w /data -v Log2Graph:/data bigpapoo/gnuplot ./CreationGraph.sh

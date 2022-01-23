@@ -22,30 +22,6 @@
       "size": 233,
       "referer": null,
       "agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
-   },
-   {
-      "date": "21/Dec/2020:14:08:06 +0100",
-      "ip": "157.48.153.185",
-      "user": "admin",
-      "method": "GET",
-      "request": "/apache-log/access.log",
-      "protocol": "HTTP/1.1",
-      "code": 200,
-      "size": 233,
-      "referer": null,
-      "agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
-   },
-   {
-      "date": "25/Dec/2020:14:08:06 +0100",
-      "ip": "157.48.153.185",
-      "user": "admin",
-      "method": "GET",
-      "request": "/apache-log/access.log",
-      "protocol": "HTTP/1.1",
-      "code": 200,
-      "size": 233,
-      "referer": null,
-      "agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
    }
 ]
    
