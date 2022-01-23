@@ -32,15 +32,19 @@ enlever les "" dans la date_format
 
                     $nomFic = explode(" ",$nomFic);
 
-                    $ligne = $nomfic[4];
+                    $ligne = $nomfic[3];
 
                     $ligne = explode(":",$ligne);
 
-                    str_replace("/","-");
-                    str_replace("[","");
-                    str_replace("Dec","12");
+                    $slash = $ligne[0];
+                    $crochet = $ligne[0];
+                    $shortdate = $ligne[0];
 
-                    file_put_contents("$dossier_de_travail/     $dir_out/$DataTemp", "$nomFic[1] $ligne[1]      \n", FILE_APPEND);
+                    $slash = str_replace("/","-", $slash);
+                    $crochet = str_replace("[","", $crochet);
+                    $shortdate = str_replace("Dec", "12", $shortdate);
+
+                    file_put_contents("$dossier_de_travail/     $dir_out/$DataTemp", "$nomFic[0] $ligne[0]      \n", FILE_APPEND);
                 }
             }
 ?>
