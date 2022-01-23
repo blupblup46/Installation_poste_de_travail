@@ -10,37 +10,32 @@ enlever les "" dans la date_format
     $DataNorm="donnees";
     $DataTemp="donneesVrac";
     $dirCSV="$dossier_de_travail/$dir_out/CSV";
+    $dirJSON="$dossier_de_travail/$dir_out/JSON";
+    $dirAPACHE="$dossier_de_travail/$dir_out/APACHE";
+
 
     while(true){
         if(is_dir("$dossier_de_travail/$dir_out")){
-            echo "fopen\n";
+            echo "création des fichiers de travail\n";
             fopen("$dossier_de_travail/$dir_out/$DataTemp", "w");
             fopen("$dossier_de_travail/$dir_out/$DataNorm", "w");
             
-            echo "scandir\n";
+            echo "Scan du dossier $dirCSV\n";
             $CSV= scandir($dirCSV);
+            echo"Recuperation des donnees\n";
 
-            echo "print_r\n";
-            print_r($CSV);
-            
-            echo"\n";
-
-            echo"foreach 1\n";
             foreach($CSV as $nomFic){
 
-                echo"if 1\n";
+                
                 if ("${nomFic}" != "." && "${nomFic}" != ".."){
 
-                    echo "explode 1\n";
+                    
                     $parts= explode(".",$nomFic);
                     print_r("$parts");
 
-                    echo"if 2\n";
                     if("$parts[1]"=="csv"){
                         $contenuFicCSV=file("$dirCSV/$nomFic");
-                        print_r("$contenuFicCSV");
 
-                        echo"foreach 2\n";
                         foreach($contenuFicCSV as $ligne){
                             echo "$ligne\n";
                             $ligne= explode(";", $ligne);
@@ -69,32 +64,118 @@ enlever les "" dans la date_format
                 }
                 
             }
+            echo "Donnees CSV recuperees\n";
+
+            echo "/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*//* JSON /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*//*\n";
+            $JSON=scandir($dirJSON);
+            echo "JSON= \n";
+            print_r($JSON);
+
+            foreach ($JSON as $nomFic){
+                if ("${nomFic}" != "." && "${nomFic}" != ".."){
+
+                    $parts= explode(".",$nomFic);
+
+                    if("$parts[1]"=="json"){
+                        $contenuFicJSON=file("$dirJSON/$nomFic");
+                        echo "contenu fic JSON= \n";
+                        print_r($contenuFicJSON);
+
+                       $indiceDate=2;
+                       $indiceIP=3;
+                       $nbElementContenuFicJSON=count($contenuFicJSON);
+
+                        while($indiceDate<$nbElementContenuFicJSON){
+                            echo "date= $contenuFicJSON[$indiceDate]\n";
+                            $date= explode(":", $contenuFicJSON[$indiceDate]);
+                            $date= $date[1];
+                            $date= str_replace('"', '', $date);
+                            $date= str_replace('/', '-', $date);
+                            $date= str_replace('Dec', '12', $date);
+
+                            $date= trim($date);
+                        
+                            echo "ip= $contenuFicJSON[$indiceIP]\n";
+                            $ip= explode(":", $contenuFicJSON[$indiceIP]);
+                            $ip= $ip[1];
+                            $ip= str_replace('"', '', $ip);
+                            $ip= str_replace(',', '', $ip);
+                            $ip= trim($ip);
+                            
+                            if ("$date"!=""){
+                                echo "$ip $date\n";
+                                file_put_contents("$dossier_de_travail/$dir_out/$DataTemp", "$ip $date\n", FILE_APPEND);
+                            }
+                            $indiceDate+=12;
+                            $indiceIP+=12;
+                        }
+                            
+                            
+                    } 
+                }
+            }
+            
+            echo "/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*//* APACHE /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*//*\n";
+            $APACHE=scandir($dirAPACHE);
+            echo "APACHE= \n";
+            print_r($APACHE);
+
+            foreach ($APACHE as $nomFic){
+                if ("${nomFic}" != "." && "${nomFic}" != ".."){
+
+                    $parts= explode(".",$nomFic);
+
+                    if("$parts[1]"=="apache"){
+                        $contenuFicAPACHE=file("$dirAPACHE/$nomFic");
+                        echo "contenu fic APACHE= \n";
+                        print_r($contenuFicAPACHE);
+
+                        foreach($contenuFicAPACHE as $ligne){
+                            $ligne= explode("]", $ligne);
+
+                            $date= explode("[", $ligne[0]);
+                            $date= explode(":", $date[1]);
+                            $date= str_replace('/', '-', $date);
+                            $date= str_replace('Dec', '12', $date);
+                            $date= trim($date[0]);
+                            echo "date= $date\n";
+                        
+                            $ip=explode("-", $ligne[0]);
+                            $ip= trim($ip[0]);
+                            echo "ip= $ip\n";
+                            
+                            if ("$date"!=""){
+                                echo "$ip $date\n";
+                                file_put_contents("$dossier_de_travail/$dir_out/$DataTemp", "$ip $date\n", FILE_APPEND);
+                            }
+                        }
+                            
+                            
+                    } 
+                }
+            }
+
 
             $DataTempLog= file("$dossier_de_travail/$dir_out/$DataTemp");
 
             echo "fichier avant tri:\n";
             print_r($DataTempLog);
+            $nbLignes=count($DataTempLog);
 
             echo "///////////////////////tri//////////////////////////\n";
-            foreach($DataTempLog as $indice => $ligne){
-                echo "indice= $indice\n";
-                foreach($DataTempLog as $test => $compare){
-                    echo "test= $test\n";
-                    if($test>$indice){
-                        echo "if passé\n";
-                        $parts1= explode(" ", $ligne);
-                        $parts2= explode(" ", $compare);
-                        if (strcmp($parts1[1],$parts2[1])>=0){
-                            $IndiceLignePlusPetite=$test;
-                            echo "indice petite= $test\n";
-                        } 
-                    }
-                    
+            for($i=0; $i<$nbLignes-1; $i+=1){
+                for($j=0; $j<$nbLignes-1-$i; $j++){
+                    $parts1= explode(" ", $DataTempLog[$j]);
+                    $parts2= explode(" ", $DataTempLog[$j+1]);
+                    if (strcmp($parts1[1],$parts2[1])>=0){
+
+                        $temp=$DataTempLog[$j];
+                        $DataTempLog[$j]=$DataTempLog[$j+1];
+                        $DataTempLog[$j+1]=$temp;
+                    } 
                 }
-                $temp=$DataTempLog[$indice];
-                $DataTempLog[$indice]=$DataTempLog[$IndiceLignePlusPetite];
-                $DataTempLog[$IndiceLignePlusPetite]=$temp;
             }
+
 
             echo "fichier apres tri:\n";
             print_r($DataTempLog);
