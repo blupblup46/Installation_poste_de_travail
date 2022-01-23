@@ -69,11 +69,28 @@ enlever les "" dans la date_format
             echo "Scan du dossier $dirJSON\n";
             $JSON=scandir($dirJSON);
             echo "Recuperation des donnees\n";
-            foreach ($assoc as $key => $value) {
-                echo "The value of key '$key' is '$value'\n";
+            print_r($JSON);
+            foreach ($JSON as $nomFic) {
+                if ("${nomFic}" != "." && "${nomFic}" != ".."){
+                    $parts= explode(".",$nomFic);
+                    print_r($parts);
+                    if("$parts[1]"=="json"){
+                        $contenuFicJSON=file_get_contents("$dirJSON/$nomFic");
+                        $un=json_decode($contenuFicJSON);
+                        $unlisible=$un[0]->ip;
+                        $shortdate=str_replace("/", "-", $un[0]->date);
+                        $shortdate=explode(":", $shortdate);
+                        $shortdate=$shortdate[0];
+                        $logpart=$unlisible . ' ' . $shortdate . "\n";
+                        file_put_contents("$dossier_de_travail/$dir_out/$DataTemp", $logpart, FILE_APPEND);
+                        $unlisible=$un[1]->ip;
+                        # ça sert a rien de redéfinir la date puisque c'est la même
+                        $logpart=$unlisible . ' ' . $shortdate . "\n";
+                        file_put_contents("$dossier_de_travail/$dir_out/$DataTemp", $logpart, FILE_APPEND);
+                    }
+                }
             }
-            
-            $assoc = json_decode($JSON, true);
+            echo "Donnees JSON recuperees\n";
 
             $DataTempLog= file("$dossier_de_travail/$dir_out/$DataTemp");
 
